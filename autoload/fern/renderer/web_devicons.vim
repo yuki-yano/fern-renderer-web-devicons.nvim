@@ -58,6 +58,10 @@ function! s:render_node(node, base, options) abort
   endif
   let leading = repeat(a:options.leading, level - 1)
   let symbol = s:get_node_symbol(a:node)
+  if len(symbol) == 1
+    let symbol = symbol . ' '
+  endif
+
   let suffix = a:node.status ? '/' : ''
 
   return leading . symbol . a:node.label . suffix . '' . a:node.badge
@@ -69,10 +73,18 @@ function! s:get_node_symbol(node) abort
     let extension = fnamemodify(a:node.bufname, ':e')
     let symbol = luaeval(printf('require"nvim-web-devicons".get_icon("%s", "%s")', filename, extension))
 
+    if symbol == v:null
+      let symbol = ' '
+    endif
+
+    if strchars(symbol) == 1
+      let symbol = symbol . ' '
+    endif
+
   elseif a:node.status is# s:STATUS_COLLAPSED
-    let symbol = ""
+    let symbol = ' '
   else
-    let symbol = ""
+    let symbol = ' '
   endif
   return symbol . '  '
 endfunction
