@@ -74,7 +74,7 @@ function! s:get_node_symbol(node) abort
     let symbol = luaeval(printf('require"nvim-web-devicons".get_icon("%s", "%s")', filename, extension))
 
     if symbol == v:null
-      let symbol = '󾩻 '
+      let symbol = '* '
     endif
 
     if strchars(symbol) == 1
